@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/a', function () {
     return view('welcome');
 })->name('home');
 
@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
 // Authenticated user routes
 Route::middleware(['auth', 'verified', 'check.status', 'check.blocked.ip'])->group(function () {
 
-    Route::get('/chattermate', function () {
+    Route::get('/', function () {
         $experts = App\Models\Expert::whereIn('domain', ['expert-chat', 'ai-tutor'])->get();
         $groupedExperts = $experts->groupBy('domain')->map(function ($domainGroup) {
             return $domainGroup->groupBy('category');
