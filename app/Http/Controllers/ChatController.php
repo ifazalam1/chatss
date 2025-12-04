@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AISettings;
 use App\Models\ChatAttachment;
 use App\Models\ChatConversation;
 use App\Models\ChatMessage;
@@ -4757,4 +4758,60 @@ public function bulkArchiveMultiCompareConversations(Request $request)
         'updated_count' => $updated
     ]);
 }
+
+// SELECT USER MODEL GLOBAL
+    public function selectModel(Request $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $selectedModel = trim($request->input('aiModel'));
+
+        // Admins can access all models
+        if ($user->hasRole('admin')) {
+            $allowedModels = AISettings::active()          
+                ->pluck('openaimodel')                     
+                ->filter()                                 
+                ->unique()                               
+                ->toArray();
+        } else {
+            $allowedModels = $user->aiModels();
+        }
+
+        // Validate selected model
+        if (!in_array($selectedModel, $allowedModels)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid AI model selected.'
+            ], 400);
+        }
+
+        $siteSettings = app('siteSettings');
+
+        // Token check (adjust logic as needed)
+        if ($user->tokens_left < 5000) {
+            $user->selected_model = $siteSettings->default_model;
+            $user->save();
+
+            // log_activity('Model changed to ' . $siteSettings->default_model . ' due to low tokens.');
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Not enough tokens. Model set to ' . $siteSettings->default_model . '.',
+                'model' => $siteSettings->default_model
+            ], 400);
+        }
+
+        // Save the model
+        $user->selected_model = $selectedModel;
+        $user->save();
+
+        // log_activity('Model changed to ' . $selectedModel);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Model updated successfully.',
+            'model' => $selectedModel,
+            'is_claude' => str_contains(strtolower($selectedModel), 'claude')
+        ]);
+    }
 }

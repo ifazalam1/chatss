@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -69,5 +69,8 @@ Route::middleware(['auth', 'verified', 'check.status', 'check.blocked.ip'])->gro
     Route::post('/translate', [ChatController::class, 'translate']);
     Route::put('/update-conversation-title/{id}', [ChatController::class, 'updateConversationTitle'])->name('update-conversation-title');
 });
+
+// Global Select Model
+    Route::post('/select-model', [ChatController::class, 'selectModel'])->name('select-model');
 
 require __DIR__.'/auth.php';

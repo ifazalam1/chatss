@@ -308,7 +308,7 @@ if (!function_exists('deductUserTokensAndCredits')) {
 
          // 5️⃣ Track per-model usage
         if ($model) {
-            $modelUsage = \App\Models\UserModelUsage::firstOrCreate(
+            $modelUsage = \App\Models\UserMonthlyUsage::firstOrCreate(
                 [
                     'user_id' => $user->id,
                     'model' => $model,
