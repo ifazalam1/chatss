@@ -14,6 +14,27 @@ return [
     |
     */
 
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI'), // Better naming than APP_URL1
+        'access_type' => 'offline',              // This enables refresh_token
+        'prompt' => 'consent',                   // Force showing the consent screen
+        'scopes' => [
+            'openid',
+            'profile',
+            'email',
+            'https://www.googleapis.com/auth/drive.file', // Optional
+        ],
+    ],
+
+
+    'github' => [
+        'client_id' => env('GITHUB_CLIENT_ID'),
+        'client_secret' => env('GITHUB_CLIENT_SECRET'),
+        'redirect' => env('APP_URL1') . '/github/callback',
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
@@ -29,6 +50,40 @@ return [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+    ],
+
+    'stable_diffusion' => [
+        'api_key' => env('STABLE_DIFFUSION_API_KEY'),
+        'api_url' => env('STABLE_DIFFUSION_API_URL'),
+    ],
+
+    'stripe' => [
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+        'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+    ],
+
+    'heyzine' => [
+        'client_id' => env('HEYZINE_CLIENT_ID'),
+        'api_key'   => env('HEYZINE_API_KEY'),
+    ],
+
+    // Add Claude/Anthropic configuration
+    'anthropic' => [
+        'api_key' => env('ANTHROPIC_API_KEY'),
+    ],
+
+    'gemini' => [
+        'api_key' => env('GEMINI_API_KEY'),
+    ],
+
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY'),
+    ],
+
+    'xai' => [
+        'api_key' => env('XAI_API_KEY'),
+        'base_url' => 'https://api.x.ai/v1',
     ],
 
 ];
