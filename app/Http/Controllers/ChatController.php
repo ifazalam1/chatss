@@ -2,17 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChatAttachment;
 use App\Models\ChatConversation;
 use App\Models\ChatMessage;
 use App\Models\Expert;
+use App\Models\MultiCompareAttachment;
+use App\Models\MultiCompareConversation;
+use App\Models\MultiCompareMessage;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Smalot\PdfParser\Parser as PdfParser;
 use PhpOffice\PhpWord\IOFactory as WordIOFactory;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
 use Illuminate\Support\Str;
+use OpenAI\Laravel\Facades\OpenAI;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ChatController extends Controller
 {
