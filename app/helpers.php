@@ -125,63 +125,63 @@ if (!function_exists('hasEnoughCreditsForGemini')) {
 }
 
 // GET MODEL FROM PACKAGE
-// if (!function_exists('getUserLastPackageAndModels')) {
-//     function getUserLastPackageAndModels()
-//     {
-//         $user = Auth::user();
+if (!function_exists('getUserLastPackageAndModels')) {
+    function getUserLastPackageAndModels()
+    {
+        $user = Auth::user();
 
-//         if (!$user) {
-//             return ['lastPackage' => null, 'aiModels' => [], 'selectedModel' => null, 'freePricingPlan' => null];
-//         }
+        if (!$user) {
+            return ['lastPackage' => null, 'aiModels' => [], 'selectedModel' => null, 'freePricingPlan' => null];
+        }
 
-//         // Get user's last package history
-//         $lastPackage = PackageHistory::where('user_id', $user->id)
-//             ->orderBy('created_at', 'desc')
-//             ->first();
+        // Get user's last package history
+        $lastPackage = PackageHistory::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
 
-//         $freePricingPlan = PricingPlan::where('package_type', 'monthly')
-//             ->where('slug', 'like', '%free%')
-//             ->first();
+        $freePricingPlan = PricingPlan::where('package_type', 'monthly')
+            ->where('slug', 'like', '%free%')
+            ->first();
 
-//         $aiModels = [];
-//         $allSettings = AISettings::active()
-//             ->whereNotNull('openaimodel')
-//             ->get()
-//             ->keyBy('openaimodel');
+        $aiModels = [];
+        $allSettings = AISettings::active()
+            ->whereNotNull('openaimodel')
+            ->get()
+            ->keyBy('openaimodel');
 
-//         if ($lastPackage) {
-//             $pricingPlan = PricingPlan::find($lastPackage->package_id);
+        if ($lastPackage) {
+            $pricingPlan = PricingPlan::find($lastPackage->package_id);
 
-//             if ($pricingPlan && !empty($pricingPlan->open_id_model)) {
-//                 $models = explode(',', $pricingPlan->open_id_model);
-//                 foreach ($models as $model) {
-//                     $model = trim($model);
-//                     if (isset($allSettings[$model])) {
-//                         $aiModels[] = [
-//                             'value' => $model,
-//                             'label' => $allSettings[$model]->displayname,
-//                         ];
-//                     }
-//                 }
-//             }
-//         } elseif ($freePricingPlan && !empty($freePricingPlan->open_id_model)) {
-//             $models = explode(',', $freePricingPlan->open_id_model);
-//             foreach ($models as $model) {
-//                 $model = trim($model);
-//                 if (isset($allSettings[$model])) {
-//                     $aiModels[] = [
-//                         'value' => $model,
-//                         'label' => $allSettings[$model]->displayname,
-//                     ];
-//                 }
-//             }
-//         }
+            if ($pricingPlan && !empty($pricingPlan->open_id_model)) {
+                $models = explode(',', $pricingPlan->open_id_model);
+                foreach ($models as $model) {
+                    $model = trim($model);
+                    if (isset($allSettings[$model])) {
+                        $aiModels[] = [
+                            'value' => $model,
+                            'label' => $allSettings[$model]->displayname,
+                        ];
+                    }
+                }
+            }
+        } elseif ($freePricingPlan && !empty($freePricingPlan->open_id_model)) {
+            $models = explode(',', $freePricingPlan->open_id_model);
+            foreach ($models as $model) {
+                $model = trim($model);
+                if (isset($allSettings[$model])) {
+                    $aiModels[] = [
+                        'value' => $model,
+                        'label' => $allSettings[$model]->displayname,
+                    ];
+                }
+            }
+        }
 
-//         $selectedModel = $user->selected_model;
+        $selectedModel = $user->selected_model;
 
-//         return compact('lastPackage', 'aiModels', 'selectedModel', 'freePricingPlan');
-//     }
-// }
+        return compact('lastPackage', 'aiModels', 'selectedModel', 'freePricingPlan');
+    }
+}
 
 
 // // Activity LOG
