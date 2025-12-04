@@ -308,7 +308,7 @@ if (!function_exists('deductUserTokensAndCredits')) {
 
          // 5️⃣ Track per-model usage
         if ($model) {
-            $modelUsage = \App\Models\UserMonthlyUsage::firstOrCreate(
+            $modelUsage = \App\Models\UserModelUsage::firstOrCreate(
                 [
                     'user_id' => $user->id,
                     'model' => $model,
@@ -944,18 +944,18 @@ if (!function_exists('formatDuration')) {
 
 
 // AIConfig
-// if (!function_exists('aiconfig')) {
-//     function aiconfig(string $function_name, string $type)
-//     {
-//         $query = AIConfig::where('function_name', $function_name);
+if (!function_exists('aiconfig')) {
+    function aiconfig(string $function_name, string $type)
+    {
+        $query = AIConfig::where('function_name', $function_name);
 
-//         if ($type) {
-//             $query->where('type', $type);
-//         }
+        if ($type) {
+            $query->where('type', $type);
+        }
 
-//         return $query->first();
-//     }
-// }
+        return $query->first();
+    }
+}
 
 
 
