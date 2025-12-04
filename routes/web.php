@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\fahmidController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
